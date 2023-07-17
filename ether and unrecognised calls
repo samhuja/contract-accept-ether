@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract EtherReceiver {
+    event Received(address indexed sender, uint256 amount);
+
+    // Fallback function to receive Ether when a transaction is sent to the contract without any function call
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
+    }
+
+    // Function to explicitly receive Ether
+    function deposit() external payable {
+        emit Received(msg.sender, msg.value);
+    }
+
+    // Fallback function to handle any unrecognized calls
+    fallback() external payable {
+        // Add custom logic here if needed
+        // For this example, we'll just emit an event indicating that an unrecognized call was made.
+        emit UnrecognizedCall(msg.data);
+    }
+
+    // Event to emit when an unrecognized call is made
+    event UnrecognizedCall(bytes data);
+}
